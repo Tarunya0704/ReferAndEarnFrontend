@@ -1,10 +1,18 @@
-"use client"
+"use client";
 
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+interface FormErrors {
+  referrerName?: string;
+  referrerEmail?: string;
+  refereeName?: string;
+  refereeEmail?: string;
+  course?: string;
+}
 
 const ReferAndEarn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,11 +23,11 @@ const ReferAndEarn = () => {
     refereeEmail: '',
     course: ''
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<FormErrors>({});
   const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: FormErrors = {};
     if (!formData.referrerName) newErrors.referrerName = 'Referrer name is required';
     if (!formData.referrerEmail) newErrors.referrerEmail = 'Referrer email is required';
     if (!formData.refereeName) newErrors.refereeName = 'Referee name is required';
@@ -34,7 +42,7 @@ const ReferAndEarn = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateForm()) return;
   
@@ -60,6 +68,7 @@ const ReferAndEarn = () => {
         throw new Error('Failed to submit referral');
       }
     } catch (error) {
+      console.error('Submission error:', error); // Log the error
       setSubmitStatus({ type: 'error', message: 'Failed to submit referral. Please try again.' });
     }
   };
@@ -131,7 +140,7 @@ const ReferAndEarn = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Friend's Name</label>
+                    <label className="block text-sm font-medium text-gray-700">Friend&apos;s Name</label>
                     <input
                       type="text"
                       value={formData.refereeName}
@@ -144,7 +153,7 @@ const ReferAndEarn = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Friend's Email</label>
+                    <label className="block text-sm font-medium text-gray-700">Friend&apos;s Email</label>
                     <input
                       type="email"
                       value={formData.refereeEmail}
