@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
 const ReferAndEarn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -35,16 +37,15 @@ const ReferAndEarn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-
+  
     try {
-      const response = await fetch('http://localhost:3001/api/referrals', {
+      const response = await fetch(`${API_URL}/api/referrals`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-
       if (response.ok) {
         setSubmitStatus({ type: 'success', message: 'Referral submitted successfully!' });
         setFormData({
