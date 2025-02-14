@@ -3,8 +3,7 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+import { API_URL } from '@/lib/constants'; // Import API_URL from the new file
 
 interface FormErrors {
   referrerName?: string;
